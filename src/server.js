@@ -2,6 +2,9 @@
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const exampleRoutes = require('./routes/example');
+app.use('/api', exampleRoutes);
+
 
 app.get('/', (req, res) => {
   res.send('Hello Render!');
@@ -10,3 +13,4 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
