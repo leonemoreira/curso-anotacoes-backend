@@ -1,31 +1,40 @@
-// src/swagger.js
-import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
+const express = require('express');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
 
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Configuração do Swagger JSDoc
 const swaggerDefinition = {
   openapi: '3.0.0',
   info: {
-    title: 'Sistema de Cursos e Anotações',
+    title: 'API de Exemplo',
     version: '1.0.0',
-    description: 'Documentação da API do sistema',
+    description: 'Documentação da API de exemplo',
   },
   servers: [
     {
       url: 'http://localhost:3000',
-      description: 'Servidor local',
     },
   ],
 };
 
 const options = {
   swaggerDefinition,
-  apis: ['./src/routes/*.js'], // ajuste conforme os arquivos de rotas
+  apis: ['./src/routes/*.js'], // Adapte para o local dos seus arquivos de rotas
 };
 
 const swaggerSpec = swaggerJSDoc(options);
 
-const setupSwagger = (app) => {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-};
+// Usar o Swagger UI para servir a documentação
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-export default setupSwagger;
+// Exemplo de rota
+app.get('/', (req, res) => {
+  res.send('Hello World');
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
